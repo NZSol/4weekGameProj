@@ -22,6 +22,7 @@ public class keyCardPickup : MonoBehaviour {
     void Start ()
     {
         invokeDelay = Time.deltaTime;
+
     }
 
     private void Update()
@@ -30,12 +31,15 @@ public class keyCardPickup : MonoBehaviour {
         playerPos = player.transform.position.x + player.transform.position.y;
         distanceFromKey = playerPos - keyPos;
 
+        Debug.Log(distanceFromKey);
+
         if (Input.GetKeyDown(KeyCode.E) && distanceFromKey < 0.5f && distanceFromKey > 0)
         {
             if (gameObject.tag == "red")
             {
                 holdingRedKey = true;
                 Invoke("RemoveKey", invokeDelay);
+                Debug.Log("test");
             }
             if (gameObject.tag == "green")
             {
@@ -47,6 +51,8 @@ public class keyCardPickup : MonoBehaviour {
                 holdingBlueKey = true;
                 Invoke("RemoveKey", invokeDelay);
             }
+
+            Debug.Log("test");
         }
         
     }
