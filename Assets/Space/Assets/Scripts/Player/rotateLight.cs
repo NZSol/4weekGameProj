@@ -9,7 +9,8 @@ public class rotateLight : MonoBehaviour {
     
 
     public GameObject player;
-
+    public Vector3 dir;
+    public float angle;
 
     // Use this for initialization
     void Start()
@@ -20,8 +21,8 @@ public class rotateLight : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (gameObject.transform.rotation.z >= 90 && gameObject.transform.rotation.z <= -90)
