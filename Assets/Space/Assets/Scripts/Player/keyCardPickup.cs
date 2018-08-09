@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class keyCardPickup : MonoBehaviour {
 
     public GameObject player;
+    public GM MasterScript;
 
     internal bool holdingRedKey = false;
     internal bool holdingBlueKey = false;
     internal bool holdingGreenKey = false;
-    
 
+    bool inRange;
     float distanceFromKey;
     float keyPos;
     float playerPos;
@@ -22,18 +23,14 @@ public class keyCardPickup : MonoBehaviour {
     void Start ()
     {
         invokeDelay = Time.deltaTime;
-
+       // GetComponent<GM>().player = player;
+        
     }
 
-    private void Update()
+
+    private void OnTriggerStay(Collider col)
     {
-        keyPos = gameObject.transform.position.x + gameObject.transform.position.y;
-        playerPos = player.transform.position.x + player.transform.position.y;
-        distanceFromKey = playerPos - keyPos;
-
-        Debug.Log(distanceFromKey);
-
-        if (Input.GetKeyDown(KeyCode.E) && distanceFromKey < 0.5f && distanceFromKey > 0)
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (gameObject.tag == "red")
             {
@@ -51,12 +48,8 @@ public class keyCardPickup : MonoBehaviour {
                 holdingBlueKey = true;
                 Invoke("RemoveKey", invokeDelay);
             }
-
-            Debug.Log("test");
         }
-        
     }
-    
 
     void RemoveKey()
     {

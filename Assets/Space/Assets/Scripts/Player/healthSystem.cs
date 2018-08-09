@@ -13,7 +13,7 @@ public class healthSystem : MonoBehaviour {
     public GameObject spawn1;
     public GameObject spawn2;
     public GameObject spawn3;
-    public
+    public GM MasterScript;
 
     Vector3 spawnPos;
 
@@ -30,9 +30,9 @@ public class healthSystem : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        //print(currentHealth);
-        print(player.GetComponentInChildren<jumpSwitch>().canJump);
+    void Update ()
+    {
+        
 	}
 
     public void TakeDamage(int amount)
@@ -44,51 +44,17 @@ public class healthSystem : MonoBehaviour {
             player.GetComponent<movement>().canMove = false;
             player.GetComponentInChildren<jumpSwitch>().canJump = false;
 
-
-            Invoke("ReLife", timeDelay);
+            MasterScript.checkDeath();
+            
         }
 
     }
 
-
-    //Check for specific spawning point player is at and sets values to spawnPos vector
-    void checkSpawn()
+    public void respawn()
     {
-        if (player.GetComponent<spawnPoints>().point1 == true)
-        {
-            spawnPos = player.GetComponent<spawnPoints>().transform.position;
-        }
-        if (player.GetComponent<spawnPoints>().point2 == true)
-        {
-            spawnPos = player.GetComponent<spawnPoints>().transform.position;
-        }
-        if (player.GetComponent<spawnPoints>().point3 == true)
-        {
-            spawnPos = player.GetComponent<spawnPoints>().transform.position;
-        }
-    }
-
-    //spawns player at appropriate spawn site and sets health to max and activates movement and jumping
-    void ReLife()
-    {
-        if (player.GetComponent<spawnPoints>().point1 == true)
-        {
-            playerClone = Instantiate(player, spawnPos, Quaternion.identity);
-        }
-        if (player.GetComponent<spawnPoints>().point2 == true)
-        {
-            playerClone = Instantiate(player, spawnPos, Quaternion.identity);
-        }
-        if (player.GetComponent<spawnPoints>().point3 == true)
-        {
-            playerClone = Instantiate(player, spawnPos, Quaternion.identity);
-        }
-
-
-        playerClone = Instantiate(player, transform.position, Quaternion.identity) as GameObject;
         currentHealth = maxHealth;
         player.GetComponent<movement>().canMove = true;
         player.GetComponentInChildren<jumpSwitch>().canJump = true;
     }
-    
+
 }
