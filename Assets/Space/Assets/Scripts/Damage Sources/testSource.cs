@@ -17,7 +17,7 @@ public class testSource : MonoBehaviour {
         var health = hit.GetComponent<healthSystem>();
         if (health != null)
         {
-            health.TakeDamage(100);
+            health.TakeDamage(50);
         }
     }
 }

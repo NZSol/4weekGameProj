@@ -19,6 +19,9 @@ public class GM : MonoBehaviour
     public GameObject Spawner2;
     public GameObject Spawner3;
 
+
+    public healthSystem healthMeter;
+
     // Use this for initialization
     void Start()
     {
@@ -47,24 +50,7 @@ public class GM : MonoBehaviour
     public void checkDeath()
     {
         playerDeath();
-        //checkSpawn();
         Invoke("ReLife", respawnDelay);
-    }
-
-    void checkSpawn()
-    {
-        //if (GetComponent<spawnPoints>().point1 == true)
-        //{
-        //    spawnPos = GetComponent<spawnPoints>().transform.position;
-        //}
-        //if (GetComponent<spawnPoints>().point2 == true)
-        //{
-        //    spawnPos = GetComponent<spawnPoints>().transform.position;
-        //}
-        //if (GetComponent<spawnPoints>().point3 == true)
-        //{
-        //    spawnPos = GetComponent<spawnPoints>().transform.position;
-        //}
     }
 
     //spawns player at appropriate spawn site and sets health to max and activates movement and jumping
@@ -93,19 +79,44 @@ public class GM : MonoBehaviour
         {
             playerClone = Instantiate(player, initialSpawn, Quaternion.identity);
         }
-
-        print("test2");
-
-
-        print("test3");
+        
         player.GetComponent<healthSystem>().respawn();
-
-        print("test4");
+        
         playerRespawn();
-
-        print("test5");
+        
         playerClone.GetComponent<healthSystem>().MasterScript = gameObject.GetComponent<GM>();
-
-        print("test6");
+        
     }
+
+
+
+
+    public GameObject ammo;
+    public GameObject health;
+
+    public GameObject ammoClone;
+    public GameObject healthClone;
+
+    int ammoCount = 0;
+
+    public void PlayerAmmo()
+    {
+        print(ammoCount);
+    }
+
+    public void giveAmmo()
+    {
+        ammoClone = Instantiate(ammo, playerClone.transform.position, Quaternion.identity);
+    }
+
+    public void increaseAmmo()
+    {
+        ammoCount++;
+    }
+
+    public void giveHealth()
+    {
+        healthClone = Instantiate(health, playerClone.transform.position, Quaternion.identity);
+    }
+
 }

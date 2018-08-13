@@ -6,8 +6,6 @@ public class healthSystem : MonoBehaviour {
 
     public const int maxHealth = 100;
     public int currentHealth;
-    float timeDelay;
-    float InvokeDelay = 10;
 
     public GameObject player;
     public GameObject spawn1;
@@ -26,17 +24,20 @@ public class healthSystem : MonoBehaviour {
     // Use this for initialization
     void Start () {
         currentHealth = maxHealth;
-        InvokeDelay = timeDelay * Time.deltaTime;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        
-	}
+        if (currentHealth > 100)
+        {
+            currentHealth = 100;
+        }
+    }
 
     public void TakeDamage(int amount)
     {
+
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
@@ -55,6 +56,20 @@ public class healthSystem : MonoBehaviour {
         currentHealth = maxHealth;
         player.GetComponent<movement>().canMove = true;
         player.GetComponentInChildren<jumpSwitch>().canJump = true;
+    }
+
+    void OnTriggerStay(Collider col)
+    {
+        if (col.tag == "health" && Input.GetKeyDown(KeyCode.E))
+        {
+            currentHealth += 20;
+            Destroy(MasterScript.healthClone);
+        }
+        if (col.tag == "ammo" && Input.GetKey(KeyCode.E))
+        {
+            MasterScript.increaseAmmo();
+            Destroy(MasterScript.ammoClone);
+        }
     }
 
 }
