@@ -12,6 +12,8 @@ public class rotateLight : MonoBehaviour {
     public Vector3 dir;
     public float angle;
 
+    public bool charFlipper;
+
     // Use this for initialization
     void Start()
     {
@@ -24,16 +26,17 @@ public class rotateLight : MonoBehaviour {
         dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        
+        if (angle >= 90 || angle <= -90)
+        {
+            player.GetComponent<SpriteRenderer>().flipX = false;
+        }
 
-        if (gameObject.transform.rotation.z >= 90 && gameObject.transform.rotation.z <= -90)
+        else
         {
             player.GetComponent<SpriteRenderer>().flipX = true;
         }
-        if (gameObject.transform.rotation.z <= 90 && gameObject.transform.rotation.z >= -90)
-        {
-            player.GetComponent<SpriteRenderer>().flipX = false;
-
-        }
 
     }
+    
 }

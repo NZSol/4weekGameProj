@@ -6,6 +6,7 @@ public class SearchZone : MonoBehaviour {
 
     public bool canSearch = true;
     public bool inRange = false;
+    bool itemSpawned = false;
 
     public float searchTimer;
 
@@ -45,8 +46,8 @@ public class SearchZone : MonoBehaviour {
         {
             canSearch = false;
             searchTimer = 0;
-            print(item);
-            ItemPickup();
+            spawnItem();
+            itemSpawned = true;
         }
     }
 
@@ -71,7 +72,15 @@ public class SearchZone : MonoBehaviour {
         searchTimer = 5;
     }
 
-
+    void spawnItem()
+    {
+        if (searchTimer == 0 && itemSpawned == false)
+        {
+            print(item);
+            ItemPickup();
+            gameObject.GetComponent<Renderer>().enabled = false;
+        }
+    }
 
     void ItemPickup()
     {

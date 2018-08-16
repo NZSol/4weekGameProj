@@ -106,17 +106,36 @@ public class GM : MonoBehaviour
 
     public void giveAmmo()
     {
-        ammoClone = Instantiate(ammo, playerClone.transform.position, Quaternion.identity);
+        ammoClone = Instantiate(ammo, new Vector3 (playerClone.transform.position.x, playerClone.transform.position.y - 0.25f, playerClone.transform.position.z), Quaternion.identity);
+        makeVisible();
     }
 
     public void increaseAmmo()
     {
-        ammoCount++;
+        {
+            ammoCount++;
+            Destroy(ammoClone);
+            PlayerAmmo();
+        }
     }
 
     public void giveHealth()
     {
-        healthClone = Instantiate(health, playerClone.transform.position, Quaternion.identity);
+        healthClone = Instantiate(health, new Vector3(playerClone.transform.position.x, playerClone.transform.position.y - 0.25f, playerClone.transform.position.z), Quaternion.identity);
+        makeVisible();
+    }
+
+    void makeVisible()
+    {
+        if (healthClone != null)
+        {
+            healthClone.SetActive(true);
+        }
+
+        if (ammoClone != null)
+        {
+            ammoClone.SetActive(true);
+        }
     }
 
 }

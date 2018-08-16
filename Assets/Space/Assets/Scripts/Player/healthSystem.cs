@@ -65,7 +65,7 @@ public class healthSystem : MonoBehaviour {
             currentHealth += 20;
             Destroy(MasterScript.healthClone);
         }
-        if (col.tag == "ammo" && Input.GetKey(KeyCode.E))
+        if (col.tag == "ammo" && Input.GetKeyDown(KeyCode.E))
         {
             MasterScript.increaseAmmo();
             Destroy(MasterScript.ammoClone);

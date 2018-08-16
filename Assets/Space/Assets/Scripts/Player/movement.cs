@@ -11,7 +11,11 @@ public class movement : MonoBehaviour {
     float crouchSpeed = 0.1f;
     float climb = 0.1f;
     public bool onLadder;
-    public bool crouching;
+    public bool crouching = false;
+    bool walking = true;
+
+    private bool isCrouching;
+
 
     Vector3 movementSpeed;
     Vector3 CrouchSpeed;
@@ -20,43 +24,70 @@ public class movement : MonoBehaviour {
 	void Start () {
         movementSpeed = new Vector3(speed, 0, 0);
         CrouchSpeed = new Vector3(crouchSpeed, 0, 0);
+
+        isCrouching = false;
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
-
-        if (Input.GetKey(KeyCode.A) && canMove == true && onLadder == false)
+        if (crouching == false)
         {
-            gameObject.transform.position -= movementSpeed;
+            if (Input.GetKey(KeyCode.A) && canMove == true)
+            {
+                gameObject.transform.position -= movementSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.D) && canMove == true)
+            {
+                gameObject.transform.position += movementSpeed;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftControl) && canMove == true)
+            {
+                print("thing");
+                crouching = true;
+                //crouchCheck();
+            }
         }
 
-        if (Input.GetKey(KeyCode.D) && canMove == true && onLadder == false)
-        {
-            gameObject.transform.position += movementSpeed;             
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftControl) && canMove == true && onLadder == false)
-        {
-            print("thing");
-            crouching = true;
-        }
-
-        if (crouching == true)
+        else if (crouching == true)
         {
             if (Input.GetKey(KeyCode.A) && canMove == true)
             {
                 gameObject.transform.position -= CrouchSpeed;
             }
+
             if (Input.GetKey(KeyCode.D) && canMove == true)
             {
                 gameObject.transform.position += CrouchSpeed;
             }
-            if (Input.GetKeyDown(KeyCode.Space))// || Input.GetKeyDown(KeyCode.LeftControl))
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl))
             {
+                print("otherThing");
+                //crouchCheck();
                 crouching = false;
             }
+
         }
+        
+
+        //if (Input.GetKeyDown(KeyCode.LeftControl) == true)
+        //{
+        //    crouchCheck();
+        //}
+
+
+        //if (isCrouching == false)
+        //{
+        //    Walk();
+        //}
+        //else
+        //{
+        //    Crouch();
+        //}
+
 
         if (onLadder == true)
         {        
@@ -82,6 +113,16 @@ public class movement : MonoBehaviour {
     }
 
 
+    void Walk()
+    {
+        print("Walk");
+    }
+
+    void Crouch()
+    {
+        print("Crouch");
+    }
+
     private void OnTriggerStay(Collider other)
     {
         //TestFunc(other);
@@ -89,7 +130,9 @@ public class movement : MonoBehaviour {
         {
             onLadder = true;
             crouching = false;
+            walking = false;
             GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -97,6 +140,14 @@ public class movement : MonoBehaviour {
     private void OnTriggerExit(Collider col)
     {
         onLadder = false;
+        walking = true;
         GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    void crouchCheck()
+    {
+        //walking = !walking;
+        //crouching = !crouching;
+        isCrouching = !isCrouching;
     }
 }
