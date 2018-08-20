@@ -34,8 +34,18 @@ public class GM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        spawnPos = playerClone.GetComponent<CheckPointTest>().playerPos;
     }
+
+
+
+
+
+
+
+
+
+
 
     public void playerDeath()
     {
@@ -46,6 +56,13 @@ public class GM : MonoBehaviour
     {
        // CanvasGroup.GetComponent<screenFade>().fadeIn();
     }
+
+
+
+
+
+
+
 
     public void checkDeath()
     {
@@ -60,26 +77,38 @@ public class GM : MonoBehaviour
 
         Destroy(playerClone);
 
-        if (GetComponent<spawnPoints>().point1 == true)
+        //if (GetComponent<spawnPoints>().point1 == true)
+        //{
+        //    spawnPos = new Vector3(Spawner1.transform.position.x, Spawner1.transform.position.y + 0.5f, Spawner1.transform.position.z);
+        //    playerClone = Instantiate(player, spawnPos, Quaternion.identity);
+        //}
+        //if (GetComponent<spawnPoints>().point2 == true)
+        //{
+        //    spawnPos = new Vector3(Spawner2.transform.position.x, Spawner2.transform.position.y + 0.5f, Spawner2.transform.position.z);
+        //    playerClone = Instantiate(player, spawnPos, Quaternion.identity);
+        //}
+        //if (GetComponent<spawnPoints>().point3 == true)
+        //{
+        //    spawnPos = new Vector3(Spawner3.transform.position.x, Spawner3.transform.position.y + 0.5f, Spawner3.transform.position.z);
+        //    playerClone = Instantiate(player, spawnPos, Quaternion.identity);
+        //}
+        //if (GetComponent<spawnPoints>().point1 == false && GetComponent<spawnPoints>().point2 == false && GetComponent<spawnPoints>().point3 == false)
+        //{
+        //    playerClone = Instantiate(player, initialSpawn, Quaternion.identity);
+        //}
+
+        //playerClone = Instantiate(player, GetComponent<spawnPoints>().playerPos, Quaternion.identity);
+
+        if (spawnPos != new Vector3(0,0,0))
         {
-            spawnPos = new Vector3(Spawner1.transform.position.x, Spawner1.transform.position.y + 0.5f, Spawner1.transform.position.z);
             playerClone = Instantiate(player, spawnPos, Quaternion.identity);
         }
-        if (GetComponent<spawnPoints>().point2 == true)
-        {
-            spawnPos = new Vector3(Spawner2.transform.position.x, Spawner2.transform.position.y + 0.5f, Spawner2.transform.position.z);
-            playerClone = Instantiate(player, spawnPos, Quaternion.identity);
-        }
-        if (GetComponent<spawnPoints>().point3 == true)
-        {
-            spawnPos = new Vector3(Spawner3.transform.position.x, Spawner3.transform.position.y + 0.5f, Spawner3.transform.position.z);
-            playerClone = Instantiate(player, spawnPos, Quaternion.identity);
-        }
-        if (GetComponent<spawnPoints>().point1 == false && GetComponent<spawnPoints>().point2 == false && GetComponent<spawnPoints>().point3 == false)
+        else
         {
             playerClone = Instantiate(player, initialSpawn, Quaternion.identity);
         }
-        
+
+
         player.GetComponent<healthSystem>().respawn();
         
         playerRespawn();
@@ -91,41 +120,40 @@ public class GM : MonoBehaviour
 
 
 
+
+
+
+
     public GameObject ammo;
     public GameObject health;
 
     public GameObject ammoClone;
     public GameObject healthClone;
 
-    int ammoCount = 0;
+    weapon weaponScript;
 
-    public void PlayerAmmo()
-    {
-        print(ammoCount);
-    }
-
+    
     public void giveAmmo()
     {
         ammoClone = Instantiate(ammo, new Vector3 (playerClone.transform.position.x, playerClone.transform.position.y - 0.25f, playerClone.transform.position.z), Quaternion.identity);
-        makeVisible();
+        //makeVisible();
     }
 
     public void increaseAmmo()
     {
         {
-            ammoCount++;
+            playerClone.GetComponent<weapon>().ammoCount++;
             Destroy(ammoClone);
-            PlayerAmmo();
         }
     }
 
     public void giveHealth()
     {
         healthClone = Instantiate(health, new Vector3(playerClone.transform.position.x, playerClone.transform.position.y - 0.25f, playerClone.transform.position.z), Quaternion.identity);
-        makeVisible();
+        //makeVisible();
     }
 
-    void makeVisible()
+    public void makeVisible()
     {
         if (healthClone != null)
         {
@@ -136,6 +164,7 @@ public class GM : MonoBehaviour
         {
             ammoClone.SetActive(true);
         }
+
     }
 
 }

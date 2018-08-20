@@ -8,9 +8,6 @@ public class healthSystem : MonoBehaviour {
     public int currentHealth;
 
     public GameObject player;
-    public GameObject spawn1;
-    public GameObject spawn2;
-    public GameObject spawn3;
     public GM MasterScript;
 
     Vector3 spawnPos;
