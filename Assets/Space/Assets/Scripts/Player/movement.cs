@@ -12,18 +12,21 @@ public class movement : MonoBehaviour {
     float climb = 0.1f;
     public bool onLadder;
     public bool crouching = false;
-    bool walking = true;
 
     private bool isCrouching;
 
 
-    Vector3 movementSpeed;
-    Vector3 CrouchSpeed;
+    Vector3 regMovementSpeed;
+    Vector3 slowMovementSpeed;
+    Vector3 regCrouchSpeed;
+    Vector3 slowCrouchSpeed;
     
 	// Use this for initialization
 	void Start () {
-        movementSpeed = new Vector3(speed, 0, 0);
-        CrouchSpeed = new Vector3(crouchSpeed, 0, 0);
+        regMovementSpeed = new Vector3(speed, 0, 0);
+        slowMovementSpeed = new Vector3(speed / 2, 0, 0);
+        regCrouchSpeed = new Vector3(crouchSpeed, 0, 0);
+        slowCrouchSpeed = new Vector3(crouchSpeed / 2, 0, 0);
 
         isCrouching = false;
 	}
@@ -31,62 +34,63 @@ public class movement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        if (crouching == false)
+        //if (crouching == false)
+        //{
+        //    if (Input.GetKey(KeyCode.A) && canMove == true)
+        //    {
+        //        gameObject.transform.position -= regMovementSpeed;
+        //    }
+
+        //    if (Input.GetKey(KeyCode.D) && canMove == true)
+        //    {
+        //        gameObject.transform.position += regMovementSpeed;
+        //    }
+
+        //    if (Input.GetKeyDown(KeyCode.LeftControl) && canMove == true)
+        //    {
+        //        print("thing");
+        //        crouching = true;
+        //        //crouchCheck();
+        //    }
+        //}
+
+        //else if (crouching == true)
+        //{
+        //    if (Input.GetKey(KeyCode.A) && canMove == true)
+        //    {
+        //        gameObject.transform.position -= regCrouchSpeed;
+        //    }
+
+        //    if (Input.GetKey(KeyCode.D) && canMove == true)
+        //    {
+        //        gameObject.transform.position += regCrouchSpeed;
+        //    }
+
+        //    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl))
+        //    {
+        //        print("otherThing");
+        //        //crouchCheck();
+        //        crouching = false;
+        //    }
+
+        //}
+
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) == true && canMove == true)
         {
-            if (Input.GetKey(KeyCode.A) && canMove == true)
-            {
-                gameObject.transform.position -= movementSpeed;
-            }
-
-            if (Input.GetKey(KeyCode.D) && canMove == true)
-            {
-                gameObject.transform.position += movementSpeed;
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftControl) && canMove == true)
-            {
-                print("thing");
-                crouching = true;
-                //crouchCheck();
-            }
+            crouchCheck();
+            print(isCrouching);
         }
 
-        else if (crouching == true)
+
+        if (isCrouching == false)
         {
-            if (Input.GetKey(KeyCode.A) && canMove == true)
-            {
-                gameObject.transform.position -= CrouchSpeed;
-            }
-
-            if (Input.GetKey(KeyCode.D) && canMove == true)
-            {
-                gameObject.transform.position += CrouchSpeed;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl))
-            {
-                print("otherThing");
-                //crouchCheck();
-                crouching = false;
-            }
-
+            Walk();
         }
-        
-
-        //if (Input.GetKeyDown(KeyCode.LeftControl) == true)
-        //{
-        //    crouchCheck();
-        //}
-
-
-        //if (isCrouching == false)
-        //{
-        //    Walk();
-        //}
-        //else
-        //{
-        //    Crouch();
-        //}
+        else
+        {
+            Crouch();
+        }
 
 
         if (onLadder == true)
@@ -115,12 +119,66 @@ public class movement : MonoBehaviour {
 
     void Walk()
     {
-        print("Walk");
+        if (gameObject.GetComponent<SpriteRenderer>().flipX == true)
+        {
+            if (Input.GetKey(KeyCode.A) && canMove == true)
+            {
+                gameObject.transform.position -= slowMovementSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.D) && canMove == true)
+            {
+                gameObject.transform.position += regMovementSpeed;
+            }
+
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.A) && canMove == true)
+            {
+                gameObject.transform.position -= regMovementSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.D) && canMove == true)
+            {
+                gameObject.transform.position += slowMovementSpeed;
+            }
+
+        }
+        
     }
 
     void Crouch()
     {
-        print("Crouch");
+        if (gameObject.GetComponent<SpriteRenderer>().flipX == true)
+        {
+            if (Input.GetKey(KeyCode.A) && canMove == true)
+            {
+                gameObject.transform.position -= slowCrouchSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.D) && canMove == true)
+            {
+                gameObject.transform.position += regCrouchSpeed;
+            }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.A) && canMove == true)
+            {
+                gameObject.transform.position -= regCrouchSpeed;
+            }
+
+            if (Input.GetKey(KeyCode.D) && canMove == true)
+            {
+                gameObject.transform.position += slowCrouchSpeed;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            crouchCheck();
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -130,7 +188,6 @@ public class movement : MonoBehaviour {
         {
             onLadder = true;
             crouching = false;
-            walking = false;
             GetComponent<Rigidbody>().useGravity = false;
             GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
@@ -140,14 +197,11 @@ public class movement : MonoBehaviour {
     private void OnTriggerExit(Collider col)
     {
         onLadder = false;
-        walking = true;
         GetComponent<Rigidbody>().useGravity = true;
     }
 
     void crouchCheck()
     {
-        //walking = !walking;
-        //crouching = !crouching;
         isCrouching = !isCrouching;
     }
 }
