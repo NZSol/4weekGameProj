@@ -5,6 +5,7 @@ TextureImporter:
     21300000: Char
     21300002: Sprite_sheet_0
     21300004: Sprite_sheet_1
+    21300006: Sprite_sheet_2
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -120,6 +121,46 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f97a304e27f5ba84898f722e03ec6aad
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_sheet_0
+      rect:
+        serializedVersion: 2
+        x: 1466
+        y: 952
+        width: 450
+        height: 591
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5b5d5b1a3cd68949a2e5e2014dbe8ca
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprite_sheet_2
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 316
+        width: 436
+        height: 591
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff0a81549f2bac748b0e93f614bbf8d0
       vertices: []
       indices: 
       edges: []
