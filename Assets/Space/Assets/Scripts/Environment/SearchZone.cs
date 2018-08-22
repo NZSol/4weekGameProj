@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SearchZone : MonoBehaviour {
 
     public bool canSearch = true;
     public bool inRange = false;
     bool itemSpawned = false;
+    bool textOn;
 
     public float searchTimer;
 
     float timeDelay;
     int item;
+
+    public Text searchText;
 
     public healthSystem lifeCount;
     public GM MasterScript;
@@ -21,11 +25,7 @@ public class SearchZone : MonoBehaviour {
         searchTimer = 4;
         timeDelay = Time.deltaTime;
         item = Random.Range(0, 100);
-
-
-
-
-
+        textOn = false;
     }
 
 
@@ -49,23 +49,38 @@ public class SearchZone : MonoBehaviour {
             spawnItem();
             itemSpawned = true;
         }
+
+        if (inRange == true)
+        {
+            searchText.gameObject.SetActive(true);
+        }
+        else
+        {
+            searchText.gameObject.SetActive(false);
+        }
     }
 
     void OnTriggerEnter (Collider col)
     {
-        inRange = true;
+        if (col.tag == "player")
+        {
+            inRange = true;
+        }
 	}
 
     void OnTriggerExit(Collider col)
     {
-        inRange = false;
-
-        if (searchTimer != 0)
+        if (col.tag == "player")
         {
-            timerReset();
+            inRange = false;
+
+            if (searchTimer != 0)
+            {
+                timerReset();
+            }
         }
     }
-
+    
 
     void timerReset()
     {
@@ -79,6 +94,7 @@ public class SearchZone : MonoBehaviour {
             print(item);
             ItemPickup();
             gameObject.GetComponent<Renderer>().enabled = false;
+            inRange = false;
         }
     }
 
@@ -125,6 +141,4 @@ public class SearchZone : MonoBehaviour {
         } 
         print("LocationSearched");
     }
-
-    
 }

@@ -15,6 +15,7 @@ public class fastMovement : MonoBehaviour
     float range = 10;
     float movementSpeed = 2;
     float distFromSpawn;
+    
 
 
     void Awake()
@@ -29,21 +30,26 @@ public class fastMovement : MonoBehaviour
 
 
         Target = GameObject.FindWithTag("player");
-        targetPos = Target.transform;
-        distFromTarget = Vector3.Distance(new Vector3(transform.position.x, 0, 0), new Vector3(targetPos.position.x, 0, 0));
+        if (Target != null)
+        {
+            targetPos = Target.transform;
+            distFromTarget = Vector3.Distance(new Vector3(transform.position.x, 0, 0), new Vector3(targetPos.position.x, 0, 0));
+        }
 
-        print(spawnSite.transform.position);
+        //print(spawnSite.transform.position);
         if (distFromTarget < range)
         {
-            print("following");
+            //print("following");
             pathfind();
         }
         else if (distFromTarget > range)
         {
-            print("returning");
+            //print("returning");
             returnToSite();
         }
     }
+
+    
 
     void pathfind()
     {
@@ -51,7 +57,7 @@ public class fastMovement : MonoBehaviour
         transform.position += new Vector3(transform.forward.x * movementSpeed * Time.deltaTime, 0, 0);
     }
 
-    void returnToSite()
+    public void returnToSite()
     {
         transform.LookAt(spawnSite);
         if (distFromSpawn > 0.1f)

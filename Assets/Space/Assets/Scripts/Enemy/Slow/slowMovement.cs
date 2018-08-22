@@ -16,10 +16,13 @@ public class slowMovement : MonoBehaviour
     float movementSpeed = 1;
     float distFromSpawn;
 
+    bool canFollow;
+
 
     void Awake()
     {
         spawnLocation.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        canFollow = true;
     }
 
     void Update()
@@ -29,22 +32,37 @@ public class slowMovement : MonoBehaviour
 
 
         Target = GameObject.FindWithTag("player");
-        targetPos = Target.transform;
-        distFromTarget = Vector3.Distance(new Vector3(transform.position.x, 0, 0), new Vector3(targetPos.position.x, 0, 0));
-
-        print(spawnSite.transform.position);
-        if (distFromTarget < range)
+        if (Target != null)
         {
-            print("following");
+            targetPos = Target.transform;
+            distFromTarget = Vector3.Distance(new Vector3(transform.position.x, 0, 0), new Vector3(targetPos.position.x, 0, 0));
+        }
+
+        //print(spawnSite.transform.position);
+        if (distFromTarget < range && canFollow == true)
+        {
+            //print("following");
             pathfind();
         }
         else if (distFromTarget > range)
         {
-            print("returning");
+            //print("returning");
             returnToSite();
         }
 
     }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "door")
+        {
+            print("triggering");
+            returnToSite();
+            canFollow = false;
+        }
+    }
+
+
 
     void pathfind()
     {
@@ -58,6 +76,8 @@ public class slowMovement : MonoBehaviour
         if (distFromSpawn > 0.1f)
         {
             transform.position += new Vector3(transform.forward.x * movementSpeed * Time.deltaTime, 0, 0);
+            canFollow = true;
         }
     }
+
 }

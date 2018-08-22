@@ -16,7 +16,10 @@ public class bulletHitDetect : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject);
+        if (collision.gameObject.tag == "enemy")
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider collision)

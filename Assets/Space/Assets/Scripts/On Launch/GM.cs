@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GM : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class GM : MonoBehaviour
     GameObject playerClone;
     public Vector3 spawnPos;
     Vector3 initialSpawn;
-
+    
     public screenFade canvas;
     public keyCardPickup[] kcp;
 
@@ -18,6 +19,7 @@ public class GM : MonoBehaviour
     public GameObject Spawner2;
     public GameObject Spawner3;
 
+    public Text ammoCount;
 
     public healthSystem healthMeter;
 
@@ -27,6 +29,7 @@ public class GM : MonoBehaviour
         playerClone = Instantiate(player, initialSpawn, Quaternion.identity) as GameObject;
         playerClone.GetComponent<healthSystem>().MasterScript = gameObject.GetComponent<GM>();
         initialSpawn = new Vector3(-2, 0.5f, 0);
+        ammoAmount = 3;
     }
 
     // Update is called once per frame
@@ -35,6 +38,10 @@ public class GM : MonoBehaviour
         if (playerClone != null)
         {
             spawnPos = playerClone.GetComponent<CheckPointTest>().playerPos;
+        }
+        if (playerClone != null)
+        {
+            ammoCount.text = "Ammo: " + playerClone.GetComponent<weapon>().ammoCount;
         }
     }
 
@@ -70,6 +77,7 @@ public class GM : MonoBehaviour
         playerDeath();
         Invoke("ReLife", 3);
         Destroy(playerClone);
+        playerClone = null;
     }
 
     //spawns player at appropriate spawn site and sets health to max and activates movement and jumping
@@ -98,7 +106,7 @@ public class GM : MonoBehaviour
 
 
 
-
+    public int ammoAmount;
 
     public GameObject ammo;
     public GameObject health;
@@ -118,7 +126,7 @@ public class GM : MonoBehaviour
     public void increaseAmmo()
     {
         {
-            playerClone.GetComponent<weapon>().ammoCount++;
+            ammoAmount++;
             Destroy(ammoClone);
         }
     }
